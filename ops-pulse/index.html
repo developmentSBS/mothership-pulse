@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ops Pulse Archive — Sites by Sara</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      background: #f4f7f7;
+    }
+    .sidebar {
+      width: 200px;
+      min-width: 200px;
+      background: #006063;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .sidebar-header {
+      padding: 20px 16px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+    .sidebar-header h1 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+    .sidebar-header p {
+      font-size: 11px;
+      opacity: 0.55;
+      margin-top: 4px;
+    }
+    .sidebar-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .sidebar-list ul { list-style: none; }
+    .sidebar-list li { }
+    .date-link {
+      display: block;
+      padding: 9px 16px;
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 13px;
+      border-left: 3px solid transparent;
+      transition: background 0.1s, border-color 0.1s;
+    }
+    .date-link:hover, .date-link.active {
+      background: rgba(255,255,255,0.12);
+      border-left-color: rgba(255,255,255,0.6);
+      color: #ffffff;
+    }
+    .main {
+      flex: 1;
+      height: 100vh;
+      overflow: hidden;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .empty-state {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      flex-direction: column;
+      color: #999;
+      gap: 8px;
+    }
+    .empty-state strong { font-size: 16px; color: #555; }
+  </style>
+</head>
+<body>
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <h1>Ops Pulse</h1>
+      <p>Sites by Sara</p>
+    </div>
+    <div class="sidebar-list">
+      <ul>
+        <li><a href="reports/2026-03-24.html" target="report-frame" class="date-link">Mar 24, 2026</a></li>
+
+      </ul>
+    </div>
+  </nav>
+  <main class="main">
+    <iframe name="report-frame" id="report-frame" src="">
+    </iframe>
+    <div class="empty-state" id="empty-state">
+      <strong>Select a date</strong>
+      <span>Choose a report from the sidebar</span>
+    </div>
+  </main>
+  <script>
+    // Auto-load the most recent report
+    const links = document.querySelectorAll('.date-link');
+    if (links.length > 0) {
+      links[0].click();
+      links[0].classList.add('active');
+      document.getElementById('empty-state').style.display = 'none';
+    }
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        document.getElementById('empty-state').style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>
