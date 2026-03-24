@@ -1,0 +1,65 @@
+{
+  "workflows": [
+    {
+      "name": "Objective",
+      "description": "Run the Claude-powered AIOS agent to handle business operations across ClickUp, QuickBooks, and Retell.ai \u2014 triggered by",
+      "file": "aios_agent.md"
+    },
+    {
+      "name": "Objective",
+      "description": "Generate a concise, actionable morning operations report for Jocelyn (Operations Manager) and Sara. The report covers al",
+      "file": "daily_ops_pulse.md"
+    },
+    {
+      "name": "Overview",
+      "description": "This form captures information needed for Claude to intelligently select service modules and generate a custom proposal.",
+      "file": "ghl_proposal_intake_form.md"
+    },
+    {
+      "name": "Objective",
+      "description": "Generate custom proposals dynamically based on client selections, using reusable service modules. Client can request cha",
+      "file": "modular_proposal_generator.md"
+    },
+    {
+      "name": "Proposal OS \u2014 Complete Build Guide",
+      "description": "**Last Updated:** March 23, 2026",
+      "file": "proposal_os_complete_guide.md"
+    },
+    {
+      "name": "Overview",
+      "description": "The modular proposal system automates proposal generation for Sites by Sara. When a client fills out a form in GoHighLev",
+      "file": "proposal_system_quickstart.md"
+    },
+    {
+      "name": "Overview",
+      "description": "This is a **Sara-reviewed, client-signed** proposal pipeline.",
+      "file": "proposal_system_v2.md"
+    }
+  ],
+  "automations": [
+    {
+      "name": "Webhook Listener",
+      "schedule": "Always on (port 5000)",
+      "last_ran": "continuous",
+      "status": "running"
+    },
+    {
+      "name": "Daily Ops Pulse (Claude narrative)",
+      "schedule": "Daily at 8am MT",
+      "last_ran": "2026-03-24T21:12:11Z",
+      "status": "installed"
+    },
+    {
+      "name": "Mothership Pulse (this dashboard)",
+      "schedule": "On-demand + daily at 8am MT",
+      "last_ran": "2026-03-24T21:35:56Z",
+      "status": "installed"
+    },
+    {
+      "name": "GitHub Auto-Backup",
+      "schedule": "Daily at 3am UTC",
+      "last_ran": "unknown",
+      "status": "installed"
+    }
+  ]
+}

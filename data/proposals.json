@@ -1,0 +1,166 @@
+{
+  "tasks": [
+    {
+      "task_id": "86b8tkvd2",
+      "task_url": "https://app.clickup.com/t/86b8tkvd2",
+      "client": "Current Prospects Tickets",
+      "list": "Expert Loan Lady",
+      "name": "Expert Loan Lady: Estimate",
+      "status": "to do",
+      "assignees": [],
+      "assignee_str": "",
+      "due": "",
+      "is_overdue": false,
+      "overdue_days": 0
+    },
+    {
+      "task_id": "86b6068k8",
+      "task_url": "https://app.clickup.com/t/86b6068k8",
+      "client": "Former Prospects",
+      "list": "411 Nails and EmNails",
+      "name": "Duda???",
+      "status": "to do",
+      "assignees": [
+        "Angela A."
+      ],
+      "assignee_str": "Angela A.",
+      "due": "2025-08-14",
+      "is_overdue": true,
+      "overdue_days": 222
+    },
+    {
+      "task_id": "86b3e4yt6",
+      "task_url": "https://app.clickup.com/t/86b3e4yt6",
+      "client": "Former Prospects",
+      "list": "Zeit Company",
+      "name": "How outdated is this website?",
+      "status": "to do",
+      "assignees": [],
+      "assignee_str": "",
+      "due": "",
+      "is_overdue": false,
+      "overdue_days": 0
+    },
+    {
+      "task_id": "86b3r83pr",
+      "task_url": "https://app.clickup.com/t/86b3r83pr",
+      "client": "Former Prospects",
+      "list": "Bagheera Inc.",
+      "name": "Do KWR and 5 page Audit for this lead",
+      "status": "to do",
+      "assignees": [],
+      "assignee_str": "",
+      "due": "",
+      "is_overdue": false,
+      "overdue_days": 0
+    },
+    {
+      "task_id": "86b2zxrdz",
+      "task_url": "https://app.clickup.com/t/86b2zxrdz",
+      "client": "Former Prospects",
+      "list": "Capture Dental",
+      "name": "SEO: Website and GMB ",
+      "status": "to do",
+      "assignees": [
+        "Siva E"
+      ],
+      "assignee_str": "Siva E",
+      "due": "2024-11-27",
+      "is_overdue": true,
+      "overdue_days": 482
+    },
+    {
+      "task_id": "86b2zup9j",
+      "task_url": "https://app.clickup.com/t/86b2zup9j",
+      "client": "Former Prospects",
+      "list": "Capture Dental",
+      "name": "RECOMMEND: Top Keywords",
+      "status": "to do",
+      "assignees": [
+        "Siva E"
+      ],
+      "assignee_str": "Siva E",
+      "due": "2024-12-05",
+      "is_overdue": true,
+      "overdue_days": 474
+    },
+    {
+      "task_id": "86b2t2c8r",
+      "task_url": "https://app.clickup.com/t/86b2t2c8r",
+      "client": "Former Prospects",
+      "list": "Capture Dental",
+      "name": "1. Client Intake Phase",
+      "status": "to do",
+      "assignees": [],
+      "assignee_str": "",
+      "due": "",
+      "is_overdue": false,
+      "overdue_days": 0
+    },
+    {
+      "task_id": "86b2bkfp3",
+      "task_url": "https://app.clickup.com/t/86b2bkfp3",
+      "client": "Former Prospects",
+      "list": "Live at the Bailey",
+      "name": "2. Onboarding Phase",
+      "status": "to do",
+      "assignees": [],
+      "assignee_str": "",
+      "due": "",
+      "is_overdue": false,
+      "overdue_days": 0
+    },
+    {
+      "task_id": "86b2bkfp2",
+      "task_url": "https://app.clickup.com/t/86b2bkfp2",
+      "client": "Former Prospects",
+      "list": "Live at the Bailey",
+      "name": "How to etc. etc. ",
+      "status": "to do",
+      "assignees": [],
+      "assignee_str": "",
+      "due": "",
+      "is_overdue": false,
+      "overdue_days": 0
+    },
+    {
+      "task_id": "86b2bkfp1",
+      "task_url": "https://app.clickup.com/t/86b2bkfp1",
+      "client": "Former Prospects",
+      "list": "Live at the Bailey",
+      "name": "1. Client Intake Phase",
+      "status": "to do",
+      "assignees": [],
+      "assignee_str": "",
+      "due": "",
+      "is_overdue": false,
+      "overdue_days": 0
+    },
+    {
+      "task_id": "86b2bkfp0",
+      "task_url": "https://app.clickup.com/t/86b2bkfp0",
+      "client": "Former Prospects",
+      "list": "Live at the Bailey",
+      "name": "3. Ongoing Phase",
+      "status": "to do",
+      "assignees": [],
+      "assignee_str": "",
+      "due": "",
+      "is_overdue": false,
+      "overdue_days": 0
+    },
+    {
+      "task_id": "86b2amvm0",
+      "task_url": "https://app.clickup.com/t/86b2amvm0",
+      "client": "Former Prospects",
+      "list": "ThriveScapes.com",
+      "name": "1. Client Intake Phase",
+      "status": "to do",
+      "assignees": [],
+      "assignee_str": "",
+      "due": "",
+      "is_overdue": false,
+      "overdue_days": 0
+    }
+  ]
+}

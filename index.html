@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mothership Pulse — Sites by Sara</title>
+  <style>
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; color: #1a1a1a; background: #f4f7f7; }
+    a { color: #006063; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed; left: 0; top: 0; bottom: 0; width: 220px;
+      background: #006063; color: #ffffff;
+      display: flex; flex-direction: column; overflow: hidden; z-index: 100;
+    }
+    .sidebar-brand {
+      display: flex; align-items: center; gap: 12px;
+      padding: 20px 16px 16px; border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+    .sidebar-logo {
+      width: 36px; height: 36px; background: rgba(255,255,255,0.2);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 800; letter-spacing: 0.5px; flex-shrink: 0;
+    }
+    .sidebar-title { font-size: 14px; font-weight: 700; line-height: 1.2; }
+    .sidebar-sub { font-size: 11px; opacity: 0.6; margin-top: 2px; }
+    .nav-list { flex: 1; overflow-y: auto; padding: 8px 0; list-style: none; }
+    .nav-link {
+      display: block; padding: 10px 20px;
+      color: rgba(255,255,255,0.8); font-size: 13px;
+      border-left: 3px solid transparent;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .nav-link:hover { background: rgba(255,255,255,0.1); color: #ffffff; text-decoration: none; }
+    .nav-link.active { background: rgba(255,255,255,0.15); border-left-color: #ffffff; color: #ffffff; font-weight: 600; }
+    .sidebar-footer { padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.15); }
+    .last-updated { font-size: 10px; opacity: 0.55; line-height: 1.4; }
+
+    /* Main */
+    .main { margin-left: 220px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    .topbar {
+      background: #ffffff; border-bottom: 1px solid #d4e8e8;
+      padding: 14px 28px; display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .topbar h1 { font-size: 18px; font-weight: 700; color: #006063; }
+    .refresh-btn {
+      background: #006063; color: #ffffff; border: none; border-radius: 6px;
+      padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .refresh-btn:hover { background: #004a4d; }
+    .refresh-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .content { flex: 1; overflow-y: auto; padding: 28px; }
+
+    /* Cards */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .kpi-card {
+      background: #ffffff; border: 1px solid #d4e8e8; border-radius: 10px;
+      padding: 18px 20px; position: relative;
+    }
+    .kpi-card .kpi-value { font-size: 28px; font-weight: 800; color: #006063; line-height: 1; }
+    .kpi-card .kpi-label { font-size: 12px; color: #6b7280; margin-top: 6px; }
+    .kpi-card.red .kpi-value { color: #dc2626; }
+    .kpi-card.yellow .kpi-value { color: #d97706; }
+    .kpi-card.green .kpi-value { color: #16a34a; }
+
+    /* Section blocks */
+    .section-block {
+      background: #ffffff; border: 1px solid #d4e8e8; border-radius: 10px;
+      margin-bottom: 20px; overflow: hidden;
+    }
+    .section-block-header {
+      padding: 14px 20px; border-bottom: 1px solid #d4e8e8;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .section-block-header h3 { font-size: 14px; font-weight: 700; color: #006063; }
+    .section-block-header .badge {
+      font-size: 11px; background: #e6f2f2; color: #006063;
+      border-radius: 20px; padding: 2px 10px; font-weight: 600;
+    }
+    .section-block-body { padding: 0; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th {
+      padding: 10px 14px; background: #f4f7f7; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px; color: #6b7280;
+      text-align: left; border-bottom: 1px solid #d4e8e8;
+    }
+    tbody td { padding: 10px 14px; border-bottom: 1px solid #d4e8e8; vertical-align: top; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #f4f7f7; }
+
+    /* Status badges */
+    .status { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .status-red { background: #fee2e2; color: #dc2626; }
+    .status-yellow { background: #fef3c7; color: #d97706; }
+    .status-green { background: #dcfce7; color: #16a34a; }
+    .status-blue { background: #dbeafe; color: #1d4ed8; }
+    .status-gray { background: #f3f4f6; color: #6b7280; }
+
+    /* Misc */
+    .loading { color: #6b7280; padding: 40px; text-align: center; font-size: 15px; }
+    .empty { color: #6b7280; padding: 20px 14px; font-style: italic; font-size: 13px; }
+    .overdue { color: #dc2626; font-weight: 600; }
+    .muted { color: #6b7280; }
+
+    /* Archive list */
+    .archive-list { list-style: none; }
+    .archive-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px; border-bottom: 1px solid #d4e8e8; gap: 12px;
+    }
+    .archive-item:last-child { border-bottom: none; }
+    .archive-item:hover { background: #f4f7f7; cursor: pointer; }
+    .archive-label { font-size: 13px; font-weight: 500; }
+    .archive-trigger { font-size: 11px; color: #6b7280; }
+    .archive-btn {
+      background: #e6f2f2; color: #006063; border: none; border-radius: 5px;
+      padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer;
+      white-space: nowrap;
+    }
+    .archive-btn:hover { background: #006063; color: #ffffff; }
+
+    /* Modal */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+      z-index: 1000; align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #ffffff; border-radius: 12px; width: 90%; max-width: 800px;
+      max-height: 85vh; display: flex; flex-direction: column; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+    .modal-header {
+      padding: 16px 24px; border-bottom: 1px solid #d4e8e8;
+      display: flex; align-items: center; justify-content: space-between;
+      background: #006063; color: #ffffff;
+    }
+    .modal-header h2 { font-size: 16px; font-weight: 700; }
+    .modal-close {
+      background: none; border: none; color: #ffffff; font-size: 22px;
+      cursor: pointer; line-height: 1; padding: 0 4px;
+    }
+    .modal-body { flex: 1; overflow-y: auto; padding: 24px; }
+
+    .workflow-item { padding: 14px 20px; border-bottom: 1px solid #d4e8e8; }
+    .workflow-item:last-child { border-bottom: none; }
+    .workflow-name { font-weight: 700; font-size: 13px; margin-bottom: 3px; }
+    .workflow-desc { font-size: 12px; color: #6b7280; }
+    .automation-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px; border-bottom: 1px solid #d4e8e8;
+    }
+    .automation-row:last-child { border-bottom: none; }
+    .automation-name { font-weight: 600; font-size: 13px; }
+    .automation-meta { font-size: 11px; color: #6b7280; margin-top: 2px; }
+
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-logo">SBS</div>
+    <div>
+      <div class="sidebar-title">Mothership Pulse</div>
+      <div class="sidebar-sub">Sites by Sara</div>
+    </div>
+  </div>
+  <ul class="nav-list">
+    <li><a href="#" class="nav-link active" data-section="overview">Overview</a></li>
+    <li><a href="#" class="nav-link" data-section="operations">Operations</a></li>
+    <li><a href="#" class="nav-link" data-section="finance">Finance</a></li>
+    <li><a href="#" class="nav-link" data-section="proposals">Proposals</a></li>
+    <li><a href="#" class="nav-link" data-section="calls">AI Calls</a></li>
+    <li><a href="#" class="nav-link" data-section="system">Workflows & Automations</a></li>
+    <li><a href="#" class="nav-link" data-section="archive">Pulse Archive</a></li>
+    <li><a href="#" class="nav-link" data-section="dailypulse">Daily Ops Pulse</a></li>
+  </ul>
+  <div class="sidebar-footer">
+    <div id="last-updated" class="last-updated">Loading...</div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <h1 id="section-title">Overview</h1>
+    </div>
+    <div class="topbar-right">
+      <button class="refresh-btn" id="refresh-btn" onclick="triggerRefresh()">
+        <span id="refresh-label">&#8635; Refresh Now</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="content" id="content">
+    <div class="loading">Loading data&hellip;</div>
+  </div>
+</div>
+
+<!-- SNAPSHOT MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h2 id="modal-title">Snapshot</h2>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let currentSection = 'overview';
+let dataCache = {};
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+async function init() {
+  // Load meta (last updated, snapshot list)
+  try {
+    const meta = await fetchJSON('data/meta.json');
+    document.getElementById('last-updated').textContent =
+      'Updated: ' + (meta.last_updated_label || meta.last_updated || '—');
+    dataCache._meta = meta;
+  } catch(e) {
+    document.getElementById('last-updated').textContent = 'No data yet';
+  }
+  loadSection('overview');
+}
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const section = link.dataset.section;
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+    const titles = {
+      overview: 'Overview', operations: 'Operations', finance: 'Finance',
+      proposals: 'Proposals', calls: 'AI Calls', system: 'Workflows & Automations',
+      archive: 'Pulse Archive', dailypulse: 'Daily Ops Pulse'
+    };
+    document.getElementById('section-title').textContent = titles[section] || section;
+    loadSection(section);
+  });
+});
+
+async function loadSection(section) {
+  currentSection = section;
+  const content = document.getElementById('content');
+  content.innerHTML = '<div class="loading">Loading&hellip;</div>';
+  try {
+    if (section === 'overview') { await renderOverview(content); return; }
+    if (section === 'archive') { renderArchive(content); return; }
+    if (section === 'dailypulse') { renderDailyPulse(content); return; }
+    const data = await fetchJSON(`data/${section}.json`);
+    dataCache[section] = data;
+    if (section === 'operations') renderOperations(content, data);
+    else if (section === 'finance') renderFinance(content, data);
+    else if (section === 'proposals') renderProposals(content, data);
+    else if (section === 'calls') renderCalls(content, data);
+    else if (section === 'system') renderSystem(content, data);
+  } catch(e) {
+    content.innerHTML = `<div class="loading">Could not load data for "${section}". ${e.message}</div>`;
+  }
+}
+
+async function fetchJSON(path) {
+  const r = await fetch(path + '?t=' + Date.now());
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return r.json();
+}
+
+// ── Overview ──────────────────────────────────────────────────────────────────
+async function renderOverview(el) {
+  let ops = {}, fin = {}, calls = {}, props = {};
+  try { ops = dataCache.operations || (dataCache.operations = await fetchJSON('data/operations.json')); } catch(e){}
+  try { fin = dataCache.finance || (dataCache.finance = await fetchJSON('data/finance.json')); } catch(e){}
+  try { calls = dataCache.calls || (dataCache.calls = await fetchJSON('data/calls.json')); } catch(e){}
+  try { props = dataCache.proposals || (dataCache.proposals = await fetchJSON('data/proposals.json')); } catch(e){}
+
+  const totalTasks = ops.total_open_tasks || 0;
+  const overdueTasks = (ops.alerts || []).filter(t => t.is_overdue).length;
+  const upcoming = (ops.upcoming_7_days || []).length;
+  const unpaidCount = (fin.unpaid_invoices || []).length;
+  const unpaidTotal = (fin.unpaid_invoices || []).reduce((s, i) => s + (i.Balance || 0), 0);
+  const activeProposals = (props.tasks || []).length;
+  const recentCalls = (calls.calls || []).length;
+
+  el.innerHTML = `
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-value">${totalTasks}</div><div class="kpi-label">Open Tasks</div></div>
+      <div class="kpi-card ${overdueTasks > 5 ? 'red' : overdueTasks > 0 ? 'yellow' : 'green'}">
+        <div class="kpi-value">${overdueTasks}</div><div class="kpi-label">Overdue Tasks</div></div>
+      <div class="kpi-card"><div class="kpi-value">${upcoming}</div><div class="kpi-label">Due This Week</div></div>
+      <div class="kpi-card ${unpaidCount > 10 ? 'red' : 'yellow'}">
+        <div class="kpi-value">${unpaidCount}</div><div class="kpi-label">Unpaid Invoices</div></div>
+      <div class="kpi-card">
+        <div class="kpi-value">$${unpaidTotal.toLocaleString('en-US', {maximumFractionDigits:0})}</div>
+        <div class="kpi-label">Total AR Outstanding</div></div>
+      <div class="kpi-card"><div class="kpi-value">${activeProposals}</div><div class="kpi-label">Active Proposals</div></div>
+      <div class="kpi-card"><div class="kpi-value">${recentCalls}</div><div class="kpi-label">Recent AI Calls</div></div>
+    </div>
+    ${_opsAlertsSummary(ops)}
+    ${_upcomingBlock(ops)}
+  `;
+}
+
+function _opsAlertsSummary(ops) {
+  const alerts = (ops.alerts || []).filter(a => a.is_overdue && a.assignee_str).slice(0, 6);
+  if (!alerts.length) return '';
+  const rows = alerts.map(a => `
+    <tr>
+      <td><strong>${a.client}</strong></td>
+      <td>${a.name.substring(0,60)}${a.name.length>60?'…':''}</td>
+      <td><span class="status status-red">${a.overdue_days}d overdue</span></td>
+      <td class="muted">${a.assignee_str || '—'}</td>
+    </tr>`).join('');
+  return `<div class="section-block">
+    <div class="section-block-header"><h3>🔴 Top Alerts</h3><span class="badge">${alerts.length}</span></div>
+    <div class="section-block-body">
+      <table><thead><tr><th>Client</th><th>Task</th><th>Overdue</th><th>Assignee</th></tr></thead>
+      <tbody>${rows}</tbody></table>
+    </div></div>`;
+}
+
+function _upcomingBlock(ops) {
+  const items = (ops.upcoming_7_days || []).slice(0, 8);
+  if (!items.length) return '';
+  const rows = items.map(t => `
+    <tr>
+      <td>${t.due}</td>
+      <td><strong>${t.client}</strong></td>
+      <td>${t.name.substring(0,55)}${t.name.length>55?'…':''}</td>
+      <td class="muted">${t.assignee_str || '—'}</td>
+    </tr>`).join('');
+  return `<div class="section-block">
+    <div class="section-block-header"><h3>📅 Due This Week</h3></div>
+    <div class="section-block-body">
+      <table><thead><tr><th>Due</th><th>Client</th><th>Task</th><th>Assignee</th></tr></thead>
+      <tbody>${rows}</tbody></table>
+    </div></div>`;
+}
+
+// ── Operations ────────────────────────────────────────────────────────────────
+function renderOperations(el, data) {
+  const alerts = (data.alerts || []).filter(a => a.is_overdue || a.status === 'clarification needed');
+  const alertRows = alerts.slice(0, 15).map(a => `
+    <tr>
+      <td><strong>${a.client}</strong></td>
+      <td>${a.name.substring(0,65)}${a.name.length>65?'…':''}</td>
+      <td><span class="status ${statusColor(a.status)}">${a.status}</span></td>
+      <td class="muted">${a.assignee_str || 'Unassigned'}</td>
+      <td>${a.is_overdue ? `<span class="overdue">${a.overdue_days}d</span>` : a.due || '—'}</td>
+    </tr>`).join('');
+
+  const assigneeRows = (data.by_assignee || [])
+    .filter(a => a.name !== 'Unassigned')
+    .map(a => `
+    <tr>
+      <td><strong>${a.name}</strong></td>
+      <td>${a.total}</td>
+      <td>${a.overdue > 0 ? `<span class="overdue">${a.overdue}</span>` : '0'}</td>
+      <td class="muted">${(a.clients || []).slice(0,4).join(', ')}${a.clients.length>4?'…':''}</td>
+    </tr>`).join('');
+
+  el.innerHTML = `
+    <div class="section-block">
+      <div class="section-block-header"><h3>🔴 Alerts & Blocked</h3><span class="badge">${alerts.length}</span></div>
+      <div class="section-block-body">
+        ${alerts.length ? `<table><thead><tr><th>Client</th><th>Task</th><th>Status</th><th>Assignee</th><th>Due / Overdue</th></tr></thead><tbody>${alertRows}</tbody></table>` : '<p class="empty">No alerts — all clear.</p>'}
+      </div>
+    </div>
+    <div class="section-block">
+      <div class="section-block-header"><h3>👤 Team Workload</h3></div>
+      <div class="section-block-body">
+        <table><thead><tr><th>Person</th><th>Open Tasks</th><th>Overdue</th><th>Clients</th></tr></thead>
+        <tbody>${assigneeRows}</tbody></table>
+      </div>
+    </div>
+    ${_upcomingBlock(data)}
+  `;
+}
+
+function statusColor(s) {
+  if (s === 'in progress') return 'status-blue';
+  if (s === 'client review') return 'status-yellow';
+  if (s === 'clarification needed') return 'status-red';
+  return 'status-gray';
+}
+
+// ── Finance ───────────────────────────────────────────────────────────────────
+function renderFinance(el, data) {
+  if (data.sandbox) {
+    el.innerHTML = '<div class="loading" style="color:#d97706">⚠️ QuickBooks is in sandbox mode — showing test data. Switch to production in .env to see real invoices.</div>';
+    return;
+  }
+  const unpaid = data.unpaid_invoices || [];
+  const invoiceRows = unpaid.map(inv => {
+    const age = inv.days_overdue || 0;
+    return `<tr>
+      <td><strong>${inv.customer_name || '—'}</strong></td>
+      <td>$${(inv.Balance||0).toLocaleString('en-US',{minimumFractionDigits:2})}</td>
+      <td>${inv.DueDate || '—'}</td>
+      <td>${age > 0 ? `<span class="overdue">${age}d overdue</span>` : '<span class="status status-green">Current</span>'}</td>
+    </tr>`;
+  }).join('');
+
+  const aging = data.aging || {};
+  el.innerHTML = `
+    <div class="kpi-grid" style="margin-bottom:20px">
+      <div class="kpi-card"><div class="kpi-value">$${(aging.current||0).toLocaleString()}</div><div class="kpi-label">Current</div></div>
+      <div class="kpi-card yellow"><div class="kpi-value">$${(aging['30'||0]).toLocaleString()}</div><div class="kpi-label">30+ Days</div></div>
+      <div class="kpi-card red"><div class="kpi-value">$${(aging['60'||0]).toLocaleString()}</div><div class="kpi-label">60+ Days</div></div>
+      <div class="kpi-card red"><div class="kpi-value">$${(aging['90'||0]).toLocaleString()}</div><div class="kpi-label">90+ Days</div></div>
+    </div>
+    <div class="section-block">
+      <div class="section-block-header"><h3>Unpaid Invoices</h3><span class="badge">${unpaid.length}</span></div>
+      <div class="section-block-body">
+        ${unpaid.length ? `<table><thead><tr><th>Client</th><th>Balance</th><th>Due Date</th><th>Status</th></tr></thead><tbody>${invoiceRows}</tbody></table>` : '<p class="empty">No unpaid invoices.</p>'}
+      </div>
+    </div>
+  `;
+}
+
+// ── Proposals ─────────────────────────────────────────────────────────────────
+function renderProposals(el, data) {
+  const tasks = data.tasks || [];
+  const rows = tasks.map(t => `
+    <tr>
+      <td><strong>${t.client}</strong></td>
+      <td>${t.name.substring(0,60)}${t.name.length>60?'…':''}</td>
+      <td><span class="status ${statusColor(t.status)}">${t.status}</span></td>
+      <td class="muted">${t.assignee_str || '—'}</td>
+      <td>${t.due || '—'}</td>
+    </tr>`).join('');
+
+  el.innerHTML = `
+    <div class="section-block">
+      <div class="section-block-header"><h3>Proposals Pipeline</h3><span class="badge">${tasks.length}</span></div>
+      <div class="section-block-body">
+        ${tasks.length ? `<table><thead><tr><th>Prospect / Client</th><th>Task</th><th>Status</th><th>Assignee</th><th>Due</th></tr></thead><tbody>${rows}</tbody></table>` : '<p class="empty">No active proposals.</p>'}
+      </div>
+    </div>
+  `;
+}
+
+// ── AI Calls ──────────────────────────────────────────────────────────────────
+function renderCalls(el, data) {
+  const calls = data.calls || [];
+  const rows = calls.map(c => {
+    const dur = c.duration_ms ? Math.round(c.duration_ms/1000) + 's' : '—';
+    const summary = (c.summary || '—').substring(0, 100);
+    return `<tr>
+      <td class="muted">${c.started_at || '—'}</td>
+      <td>${c.from || '—'}</td>
+      <td>${c.to || '—'}</td>
+      <td>${dur}</td>
+      <td><span class="status ${c.status === 'ended' ? 'status-green' : 'status-gray'}">${c.status || '—'}</span></td>
+      <td class="muted" style="max-width:200px">${summary}${(c.summary||'').length>100?'…':''}</td>
+    </tr>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="section-block">
+      <div class="section-block-header"><h3>Recent AI Calls (Retell)</h3><span class="badge">${calls.length}</span></div>
+      <div class="section-block-body">
+        ${calls.length ? `<table><thead><tr><th>Time</th><th>From</th><th>To</th><th>Duration</th><th>Status</th><th>Summary</th></tr></thead><tbody>${rows}</tbody></table>` : '<p class="empty">No recent calls.</p>'}
+      </div>
+    </div>
+  `;
+}
+
+// ── System / Workflows ────────────────────────────────────────────────────────
+function renderSystem(el, data) {
+  const workflows = data.workflows || [];
+  const automations = data.automations || [];
+
+  const wfItems = workflows.map(w => `
+    <div class="workflow-item">
+      <div class="workflow-name">${w.name}</div>
+      <div class="workflow-desc">${w.description || ''}</div>
+    </div>`).join('');
+
+  const autoItems = automations.map(a => `
+    <div class="automation-row">
+      <div>
+        <div class="automation-name">${a.name}</div>
+        <div class="automation-meta">${a.schedule || ''} · Last ran: ${a.last_ran || '—'}</div>
+      </div>
+      <span class="status ${a.status === 'running' ? 'status-green' : a.status === 'installed' ? 'status-blue' : 'status-gray'}">${a.status}</span>
+    </div>`).join('');
+
+  el.innerHTML = `
+    <div class="section-block">
+      <div class="section-block-header"><h3>Workflows (SOPs)</h3><span class="badge">${workflows.length}</span></div>
+      <div class="section-block-body">${wfItems || '<p class="empty">No workflows found.</p>'}</div>
+    </div>
+    <div class="section-block">
+      <div class="section-block-header"><h3>Running Automations</h3></div>
+      <div class="section-block-body">${autoItems || '<p class="empty">No automations tracked.</p>'}</div>
+    </div>
+  `;
+}
+
+// ── Pulse Archive ─────────────────────────────────────────────────────────────
+function renderArchive(el) {
+  const meta = dataCache._meta || {};
+  const snapshots = meta.snapshots || [];
+
+  if (!snapshots.length) {
+    el.innerHTML = '<div class="loading">No snapshots yet. Run the generator to create the first one.</div>';
+    return;
+  }
+
+  const items = snapshots.map(s => `
+    <li class="archive-item" onclick="openSnapshot('${s.file}', '${s.label}')">
+      <div>
+        <div class="archive-label">${s.label}</div>
+        <div class="archive-trigger">Triggered by: ${s.trigger || 'unknown'}</div>
+      </div>
+      <button class="archive-btn">View →</button>
+    </li>`).join('');
+
+  el.innerHTML = `
+    <div class="section-block">
+      <div class="section-block-header"><h3>All Snapshots</h3><span class="badge">${snapshots.length}</span></div>
+      <div class="section-block-body">
+        <ul class="archive-list">${items}</ul>
+      </div>
+    </div>
+  `;
+}
+
+async function openSnapshot(file, label) {
+  document.getElementById('modal-title').textContent = label;
+  document.getElementById('modal-body').innerHTML = '<div class="loading">Loading snapshot…</div>';
+  document.getElementById('modal-overlay').classList.add('open');
+  try {
+    const data = await fetchJSON(`snapshots/${file}`);
+    document.getElementById('modal-body').innerHTML = renderSnapshotSummary(data);
+  } catch(e) {
+    document.getElementById('modal-body').innerHTML = `<p style="color:red">Failed to load snapshot: ${e.message}</p>`;
+  }
+}
+
+function renderSnapshotSummary(data) {
+  const ops = data.operations || {};
+  const fin = data.finance || {};
+  const calls = data.calls || {};
+  const props = data.proposals || {};
+  return `
+    <div class="kpi-grid" style="margin-bottom:20px">
+      <div class="kpi-card"><div class="kpi-value">${ops.total_open_tasks||0}</div><div class="kpi-label">Open Tasks</div></div>
+      <div class="kpi-card"><div class="kpi-value">${(ops.alerts||[]).filter(a=>a.is_overdue).length}</div><div class="kpi-label">Overdue</div></div>
+      <div class="kpi-card"><div class="kpi-value">${(fin.unpaid_invoices||[]).length}</div><div class="kpi-label">Unpaid Invoices</div></div>
+      <div class="kpi-card"><div class="kpi-value">${(props.tasks||[]).length}</div><div class="kpi-label">Proposals</div></div>
+      <div class="kpi-card"><div class="kpi-value">${(calls.calls||[]).length}</div><div class="kpi-label">AI Calls</div></div>
+    </div>
+    <h4 style="margin-bottom:10px;color:#006063">Top Alerts at this moment</h4>
+    ${(ops.alerts||[]).filter(a=>a.is_overdue&&a.assignee_str).slice(0,8).map(a=>`
+      <div style="padding:8px 0;border-bottom:1px solid #d4e8e8;font-size:13px">
+        <strong>${a.client}</strong> — ${a.name.substring(0,70)} <span style="color:#dc2626">(${a.overdue_days}d overdue, ${a.assignee_str})</span>
+      </div>`).join('') || '<p class="empty">No overdue tasks at this snapshot.</p>'}
+  `;
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+// ── Daily Ops Pulse ───────────────────────────────────────────────────────────
+function renderDailyPulse(el) {
+  el.innerHTML = `
+    <div class="section-block">
+      <div class="section-block-header"><h3>Daily Ops Pulse Reports</h3></div>
+      <div class="section-block-body" style="padding:24px">
+        <p style="margin-bottom:16px;font-size:14px">
+          The Daily Ops Pulse is a Claude-narrated report generated each morning at 8am MT.
+          It gives Jocelyn and Sara a human-readable briefing on what needs attention,
+          who's carrying what, and what's due this week.
+        </p>
+        <a href="` + OPS_PULSE_URL + `" target="_blank" class="refresh-btn" style="display:inline-block;text-decoration:none;margin-bottom:20px">
+          Open Daily Pulse Archive →
+        </a>
+      </div>
+    </div>
+  `;
+}
+
+// ── Refresh ───────────────────────────────────────────────────────────────────
+async function triggerRefresh() {
+  const btn = document.getElementById('refresh-btn');
+  const label = document.getElementById('refresh-label');
+  btn.disabled = true;
+  label.textContent = '⏳ Refreshing...';
+
+  try {
+    await fetch('` + WEBHOOK_URL + `', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({source: 'mothership_pulse_refresh', trigger: 'dashboard_button'}),
+      mode: 'no-cors'
+    });
+    label.textContent = '✓ Refresh triggered — updating in ~60s';
+    setTimeout(() => { label.textContent = '↻ Refreshing page...'; location.reload(); }, 65000);
+  } catch(e) {
+    label.textContent = 'Refresh failed — run manually';
+    btn.disabled = false;
+  }
+}
+
+// ── Boot ──────────────────────────────────────────────────────────────────────
+init();
+
+const OPS_PULSE_URL = '` + OPS_PULSE_URL + `';
+
+</script>
+</body>
+</html>
