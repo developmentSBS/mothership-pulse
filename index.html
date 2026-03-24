@@ -183,7 +183,7 @@
     <li><a href="#" class="nav-link" data-section="calls">AI Calls</a></li>
     <li><a href="#" class="nav-link" data-section="system">Workflows & Automations</a></li>
     <li><a href="#" class="nav-link" data-section="archive">Pulse Archive</a></li>
-    <li><a href="#" class="nav-link" data-section="dailypulse">Daily Ops Pulse</a></li>
+    <li><a href="#" class="nav-link" data-section="mothershipsminute">Mothership Minute</a></li>
   </ul>
   <div class="sidebar-footer">
     <div id="last-updated" class="last-updated">Loading...</div>
@@ -254,7 +254,7 @@ document.querySelectorAll('.nav-link').forEach(link => {
     const titles = {
       overview: 'Overview', operations: 'Operations', finance: 'Finance',
       proposals: 'Proposals', calls: 'AI Calls', system: 'Workflows & Automations',
-      archive: 'Pulse Archive', dailypulse: 'Daily Ops Pulse'
+      archive: 'Pulse Archive', mothershipsminute: 'Mothership Minute'
     };
     document.getElementById('section-title').textContent = titles[section] || section;
     loadSection(section);
@@ -268,7 +268,7 @@ async function loadSection(section) {
   try {
     if (section === 'overview') { await renderOverview(content); return; }
     if (section === 'archive') { renderArchive(content); return; }
-    if (section === 'dailypulse') { renderDailyPulse(content); return; }
+    if (section === 'mothershipsminute') { renderMothershipsMinute(content); return; }
     const data = await fetchJSON(`data/${section}.json`);
     dataCache[section] = data;
     if (section === 'operations') renderOperations(content, data);
@@ -585,19 +585,28 @@ function closeModal() {
   document.getElementById('modal-overlay').classList.remove('open');
 }
 
-// ── Daily Ops Pulse ───────────────────────────────────────────────────────────
-function renderDailyPulse(el) {
+// ── Mothership Minute ─────────────────────────────────────────────────────────
+function renderMothershipsMinute(el) {
   el.innerHTML = `
     <div class="section-block">
-      <div class="section-block-header"><h3>Daily Ops Pulse Reports</h3></div>
+      <div class="section-block-header"><h3>Mothership Minute</h3></div>
       <div class="section-block-body" style="padding:24px">
-        <p style="margin-bottom:16px;font-size:14px">
-          The Daily Ops Pulse is a Claude-narrated report generated each morning at 8am MT.
-          It gives Jocelyn and Sara a human-readable briefing on what needs attention,
-          who's carrying what, and what's due this week.
+        <p style="margin-bottom:8px;font-size:14px;line-height:1.7">
+          The <strong>Mothership Minute</strong> is a Claude-narrated business health report
+          generated each morning at 8am MT. It interprets live data from ClickUp, QuickBooks,
+          Retell, and the proposals pipeline into a 3-minute founder's briefing —
+          what's at risk, what's winning, and what needs attention today.
         </p>
-        <a href="${OPS_PULSE_URL}" class="refresh-btn" style="display:inline-block;text-decoration:none;margin-bottom:20px">
-          Open Daily Pulse Reports →
+        <p style="margin-bottom:20px;font-size:13px;color:#6b7280">
+          Every report goes through a two-pass validation: Claude writes the narrative,
+          then verifies every factual claim against the source data before publishing.
+        </p>
+        <a href="mothership-minute/" class="refresh-btn" style="display:inline-block;text-decoration:none;margin-bottom:12px">
+          Read the Mothership Minute →
+        </a>
+        <br>
+        <a href="${OPS_PULSE_URL}" style="font-size:13px;color:#006063">
+          View raw Ops Pulse reports →
         </a>
       </div>
     </div>

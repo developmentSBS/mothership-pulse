@@ -21,6 +21,11 @@
       "file": "modular_proposal_generator.md"
     },
     {
+      "name": "What This Is",
+      "description": "The Mothership Minute is a short, human-readable narrative report on the health of the Sites by Sara business. It is gen",
+      "file": "mothership_minute.md"
+    },
+    {
       "name": "Proposal OS \u2014 Complete Build Guide",
       "description": "**Last Updated:** March 23, 2026",
       "file": "proposal_os_complete_guide.md"
@@ -52,7 +57,7 @@
     {
       "name": "Mothership Pulse (this dashboard)",
       "schedule": "On-demand + daily at 8am MT",
-      "last_ran": "2026-03-24T22:05:39Z",
+      "last_ran": "2026-03-24T22:13:52Z",
       "status": "installed"
     },
     {
