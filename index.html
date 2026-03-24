@@ -220,6 +220,11 @@
 </div>
 
 <script>
+// Config — baked in at generation time
+const OPS_PULSE_URL = 'ops-pulse/';
+const WEBHOOK_URL = 'https://72.62.162.198:5000/webhook/mothership-pulse-refresh';
+</script>
+<script>
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let currentSection = 'overview';
@@ -591,7 +596,7 @@ function renderDailyPulse(el) {
           It gives Jocelyn and Sara a human-readable briefing on what needs attention,
           who's carrying what, and what's due this week.
         </p>
-        <a href="` + OPS_PULSE_URL + `" class="refresh-btn" style="display:inline-block;text-decoration:none;margin-bottom:20px">
+        <a href="${OPS_PULSE_URL}" class="refresh-btn" style="display:inline-block;text-decoration:none;margin-bottom:20px">
           Open Daily Pulse Reports →
         </a>
       </div>
@@ -607,7 +612,7 @@ async function triggerRefresh() {
   label.textContent = '⏳ Refreshing...';
 
   try {
-    await fetch('` + WEBHOOK_URL + `', {
+    await fetch(WEBHOOK_URL, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({source: 'mothership_pulse_refresh', trigger: 'dashboard_button'}),
@@ -623,8 +628,6 @@ async function triggerRefresh() {
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 init();
-
-const OPS_PULSE_URL = '` + OPS_PULSE_URL + `';
 
 </script>
 </body>
